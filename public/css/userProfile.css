@@ -1,0 +1,143 @@
+
+
+
+
+
+.user-posts {
+    padding: 20px;
+}
+
+.post-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap onto the next line */
+    justify-content: space-between; /* Distributes space between items */
+}
+
+.postt {
+    width: calc(33% - 10px); /* Set width to 25% of the container with some margin */
+    margin-bottom: 20px; /* Space below each post */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.post-image {
+    width: 100%; /* Make image fill the post container */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 8px; /* Optional: add some rounded corners to images */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* General styles for the profile picture */
+.profile-pic-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px; /* Space between the profile pic and the form */
+}
+
+.profile-pic {
+    width: 100px; /* Adjust the size as needed */
+    height: 100px;
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image covers the circle */
+    border: 2px solid #ccc; /* Optional: border around the profile pic */
+}
+
+/* Style for the edit profile form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between form fields */
+}
+
+label {
+    font-weight: bold; /* Makes labels stand out */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #007bff; /* Button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+.follower-item, .following-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.follower-pic, .following-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.follower-item span, .following-item span {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+.clickable {
+    cursor: pointer;
+    color: #6A8DAD; /* Slate Blue - a blend of blue and gray */
+    text-decoration: none; /* Keeps the text without underline */
+}
+

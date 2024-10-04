@@ -1,0 +1,166 @@
+<!-- views/userProfile.ejs -->
+ 
+<link rel="stylesheet" href="/css/userProfile.css">
+<div class="profile-info-container">
+    <div class="profile-pic-container">
+    <img src="<%= userProfile.profile_pic %>" alt="Profile Picture" class="profile-pic">
+
+</div>
+    
+<div class="user-details">
+    <div class="username">
+        <h2><%=  userProfile.username %></h2>
+    </div>
+
+     <!-- Profile Stats -->
+     <div class="profile-stats">
+        <div class="stat-item">
+            <span><%= posts.length %></span>
+            <strong>Posts</strong>
+        </div>
+        <div class="stat-item">
+            <span><%= userProfile.followers.length  %></span>
+            <strong><a href="/users/<%= userProfile._id %>/followers">Followers</a></strong>
+        </div>
+        <div class="stat-item">
+            <span><%= userProfile.following.length %></span>
+            <strong><a href="/users/<%= userProfile._id %>/following">Following</a></strong>
+        </div>
+
+
+    </div>
+
+
+      <!-- Full Name -->
+      <div class="full-name">
+        <p><%= userProfile.full_name %></p>
+    </div>
+
+    <!-- Bio -->
+    <div class="bio">
+        <p><%= userProfile.bio %></p>
+    </div>
+
+</div>
+
+    
+
+   
+    <!-- Conditional rendering for follow/unfollow button -->
+<!-- <% if (profileUserId !== loggedInUserId) { %>
+    <button class="follow-btn" data-user-id="<%= userProfile._id %>">
+        <%= isFollowing ? 'Unfollow' : 'Follow' %>
+    </button>
+<% } %> -->
+
+
+      <!-- Conditional rendering for follow/unfollow button -->
+      <% if (profileUserId !== loggedInUserId) { %>
+        <form action="/users/<%= userProfile._id %>/follow" method="POST">
+            <button type="submit" class="follow-btn"><%= isFollowing ? 'Unfollow' : 'Follow' %></button>
+        </form>
+    <% } %>
+</div>
+
+
+
+<div class="user-posts">
+    <% if (posts.length === 0) { %>
+        <p>No posts yet.</p>
+    <% } else { %>
+        <div class="post-container"> <!-- Added a container for styling -->
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <img src="<%= post.media %>" alt="Post Media" class="post-image">
+                    <p><%= post.caption %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- views/userProfile.ejs -->
+ 
+<link rel="stylesheet" href="/css/userProfile.css">
+<div class="profile-header">
+    <img src="<%= userProfile.profile_pic %>" alt="Profile Picture" class="profile-pic">
+    <h2><%= userProfile.full_name %> (@<%= userProfile.username %>)</h2>
+    <p><%= userProfile.bio %></p>
+
+    
+
+    <div class="stats">
+        <div class="stat-item">
+            <strong>Posts</strong>
+            <span><%= posts.length %></span>
+        </div>
+        <div class="stat-item">
+            <strong><a href="/users/<%= userProfile._id %>/followers">Followers</a></strong> <!-- Link to followers page -->
+            <span><%= userProfile.followers.length %></span>
+        </div>
+        <div class="stat-item">
+            <strong><a href="/users/<%= userProfile._id %>/following">Following</a></strong> <!-- Link to following page -->
+            <span><%= userProfile.following.length %></span>
+        </div>
+    </div>
+    
+
+
+      <!-- Conditional rendering for follow/unfollow button -->
+      <% if (profileUserId !== loggedInUserId) { %>
+        <form action="/users/<%= userProfile._id %>/follow" method="POST">
+            <button type="submit" class="follow-btn"><%= isFollowing ? 'Unfollow' : 'Follow' %></button>
+        </form>
+    <% } %>
+</div>
+
+
+
+<div class="user-posts">
+    <% if (posts.length === 0) { %>
+        <p>No posts yet.</p>
+    <% } else { %>
+        <div class="post-container"> <!-- Added a container for styling -->
+            <% posts.forEach(post => { %>
+                <div class="post">
+                    <img src="<%= post.media %>" alt="Post Media" class="post-image">
+                    <p><%= post.caption %></p>
+                </div>
+            <% }); %>
+        </div>
+    <% } %>
+</div>
+
+

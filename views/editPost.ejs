@@ -1,0 +1,54 @@
+<!-- views/editPost.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <link rel="stylesheet" href="/css/new.css">
+    
+</head>
+<body>
+    <h1>Edit Post</h1>
+
+    <form action="/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+        <!-- Media Preview -->
+        <div>
+            <label>Current Media:</label>
+            <img src="<%= post.media %>" alt="Current Media" width="200">
+        </div>
+
+        <!-- Option to upload a new media file -->
+        <div>
+            <label for="media">Change Media:</label>
+            <input type="file" name="media" id="media">
+        </div>
+
+        <!-- Caption -->
+        <div>
+            <label for="caption">Caption:</label>
+            <input type="text" name="caption" id="caption" value="<%= post.caption %>">
+        </div>
+
+        <!-- Location -->
+        <div>
+            <label for="location">Location:</label>
+            <input type="text" name="location" id="location" value="<%= post.location %>">
+        </div>
+
+        <!-- Hashtags -->
+        <div>
+            <label for="hashtags">Hashtags (comma separated):</label>
+            <input type="text" name="hashtags" id="hashtags" value="<%= post.hashtags.join(', ') %>">
+        </div>
+
+        <!-- Tagged Users -->
+        <div>
+            <label for="taggedUsers">Tagged Users (comma separated):</label>
+            <input type="text" name="taggedUsers" id="taggedUsers" value="<%= post.taggedUsers.map(user => user.username).join(', ') %>">
+        </div>
+
+        <button type="submit">Update Post</button>
+    </form>
+</body>
+</html>

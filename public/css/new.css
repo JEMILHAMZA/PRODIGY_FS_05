@@ -1,0 +1,1233 @@
+
+
+/* Reset default margins and paddings */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Container to hold sidebar and main content */
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #fff;
+    border-right: 1px solid #dbdbdb;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute space between menu and logout */
+    height: 100vh; /* Make the sidebar full height */
+}
+
+.menu {
+    flex-grow: 1;
+}
+
+.logout {
+    margin-top: auto; /* Push the logout link to the bottom */
+    padding-top: 20px; /* Add some spacing from the menu items */
+    border-top: 1px solid #dbdbdb; /* Optional: Add a top border to separate from menu items */
+}
+
+.logout a {
+    text-decoration: none;
+    color: #262626;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logout a i {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+
+.logo h1 {
+    font-size: 28px; /* Increased font size for a bolder look */
+    font-weight: bold;
+    color: #262626;
+    margin-bottom: 30px;
+  
+    font-family: "Playwrite DE Grund", cursive;
+}
+
+.menu ul {
+    list-style: none;
+}
+
+.menu-item {
+    font-size: 14px; /* Adjusted font size */
+    font-family: 'Arial', sans-serif; /* You can change this to any font similar to Instagram's */
+    color: #262626;
+    padding: 15px 10px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 10px; /* Add a margin to create a gap between items */
+    border-radius: 10px; /* Ensure border-radius applies to each item */
+    transition: background-color 0.3s; /* Smooth transition for hover effect */
+    border-bottom: 1px solid #dbdbdb; /* Optional: Add a top border to separate from menu items */
+}
+
+.menu-item:last-child {
+    margin-bottom: 0; /* Remove bottom margin from the last item */
+}
+
+.menu-item:hover,
+.menu-item.active {
+    background-color: #fafafa;
+    color: #262626;
+}
+
+
+.menu-item i {
+    margin-right: 15px;
+    font-size: 20px;
+}
+
+.menu-item a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+
+
+.menu-item a div {
+    display: flex;
+    flex-direction: column; /* Stack the full name and username */
+}
+
+.full-name {
+    font-weight: bold; /* Make the full name bold */
+    color: #262626; /* Use Instagram-like color */
+}
+
+.username {
+    font-size: 14px; /* Adjust the font size */
+    color: #8e8e8e; /* Use a lighter color for the username */
+}
+
+
+
+
+
+.small-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.menu a {
+    display: flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+}
+
+/* Main content area */
+.main-content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fafafa;
+}
+
+.feed {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.post {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+
+
+.postt {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+
+
+
+
+
+
+
+.post-header {
+    display: flex;
+    align-items: center; /* Center vertically */
+    margin-bottom: 10px;
+    
+}
+
+
+.post-header a{
+    
+text-decoration: none;
+color: inherit;
+}
+
+.small-profile-pic {
+    width: 40px; /* Maintain size */
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px; /* Space between profile pic and text */
+    object-fit: cover;
+}
+
+.post-user-info {
+    display: flex;
+    flex-direction: column; /* Stack username on top of metadata */
+}
+
+.poster-username {
+    font-weight: bold;
+    color: #262626;
+}
+
+.post-meta {
+    display: flex; /* Side by side alignment */
+    justify-content: space-between; /* Space between date and location */
+    font-size: 12px;
+    
+}
+
+.post-date,
+.post-location {
+    margin: 0; /* Remove default margins */
+    padding-left: 5px; /* Space between date and location */
+}
+
+.post-date{
+    color: #8e8e8e; /* Use similar color for date and location */
+}
+
+
+
+
+
+.post-media {
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin: 15px 0;
+}
+
+.post-caption {
+    font-size: 14px;
+    margin-bottom: 15px; /* Increased margin for more space */
+    color: #262626;
+}
+
+.post-hashtags {
+    font-size: 14px;
+    color: #00376b;
+    margin-bottom: 15px; /* Add margin to create space below hashtags */
+}
+
+.post-tagged-users {
+    font-size: 14px;
+    color: #00376b;
+    margin-bottom: 30px;
+}
+
+
+.post-tagged-users a{
+    text-decoration: none;
+    color: inherit;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.post-actions i {
+    font-size: 24px;
+    cursor: pointer;
+    margin-right: 10px; /* Adjust margin to bring the icon closer to the count */
+}
+
+.post-actions span {
+    font-size: 14px; /* Ensure counts are of a consistent size */
+    margin-right: 15px; /* Space between different action counts */
+}
+
+
+
+
+
+
+
+
+
+
+.like-icon {
+    color: #ed4956;
+}
+
+.comment-icon {
+    color: #262626;
+}
+
+.save-icon {
+    color: gray;
+}
+
+/* Comments section styles */
+.comments-section {
+    margin-top: 10px;
+   
+}
+
+/* Hidden class to hide elements */
+.hidden {
+    display: none;
+}
+
+.comments-section.hidden {
+    display: none;
+}
+
+.comments-section .comment {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: #262626;
+    display: flex;
+    align-items: center;
+}
+
+
+
+.comment-user {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.comment-username {
+   
+    font-weight: bold;
+}
+
+.comment-text {
+    flex: 1;
+    color: #262626;
+    margin-left: 10px; /* Space between username and comment text */
+}
+
+
+.add-comment-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-comment-form textarea {
+    resize: none;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.add-comment-form button {
+    background-color: #0095f6;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.add-comment-form button:hover {
+    background-color: #007bb5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* saved and my post grid layout */
+
+
+.posts-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.post-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Three posts per row */
+    gap: 20px; /* Space between posts */
+}
+
+.post {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    overflow: hidden;
+    /* Additional styles */
+    padding: 15px;
+}
+
+
+
+.postt {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    overflow: hidden;
+    /* Additional styles */
+    padding: 15px;
+}
+
+
+.post-media {
+   
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.post-header,
+.post-actions,
+.comments-section {
+    padding: 0 15px; /* Adjust padding for alignment */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* my post edit and delete icon , my post post content and edit form toggle */
+
+/* Icon buttons for edit and delete */
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.post-actions-icons {
+    display: flex;
+    align-items: center;
+    margin-left: auto; /* Pushes icons to the right */
+}
+
+.edit-icon, .delete-icon {
+    font-size: 18px;
+    margin-left: 10px;
+    color: #262626;
+    transition: color 0.3s ease;
+}
+
+.edit-icon:hover {
+    color: #0095f6; /* Change color on hover (blue for edit) */
+}
+
+.delete-icon:hover {
+    color: #ed4956; /* Change color on hover (red for delete) */
+}
+
+/* Post Header layout with space for icons */
+
+
+.post-content {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+
+
+/* after clicking the edit button we get the edit form style */
+
+
+/* Edit Post Form Styles */
+.edit-post-form {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Media Preview Styling */
+.media-preview {
+    margin-bottom: 15px;
+}
+
+
+
+/* Form Container Styling */
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input Group Styles */
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    font-weight: bold;
+    color: #262626;
+    margin-bottom: 5px;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #0095f6; /* Instagram-like blue */
+    outline: none;
+}
+
+/* Button Styles */
+
+.cancel-edit-btn {
+    background-color: transparent;
+    color: #ed4956; /* Red for cancel */
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-bottom: 15px;
+    transition: color 0.3s;
+}
+
+.cancel-edit-btn:hover {
+    color: #d32f2f; /* Darker red on hover */
+}
+
+
+
+.update-edit-btn {
+    background-color: transparent;
+    color: #0095f6; /* blue for update */
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    margin-bottom: 15px;
+    transition: color 0.3s;
+}
+
+.update-edit-btn:hover {
+    color: #007bb5; /* Darker blue on hover */
+}
+
+
+
+
+
+
+
+
+
+.edit-form-content {
+    display: flex; /* Use flexbox for horizontal alignment */
+    
+    margin-top: 20px; /* Add some spacing above */
+}
+
+.edit-actions{
+    display: flex; /* Use flexbox for horizontal alignment */
+    justify-content: space-between; /* Space between media and inputs */
+    margin-top: 20px; /* Add some spacing above */
+}
+
+.media-preview {
+    flex:60%;
+    margin-right: 20px; /* Space between media and inputs */
+}
+
+.edit-inputs {
+    flex:40%;
+    display: flex;
+    flex-direction: column; /* Stack input groups vertically */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Create Post Form Styles */
+.create-post-form {
+    background-color: #fff;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+/* Media Preview Styling */
+.media-preview {
+    margin-bottom: 15px;
+}
+
+/* Form Layout for Create Post */
+.create-form-content {
+    display: flex; /* Horizontal alignment */
+    margin-top: 20px; /* Space above */
+}
+
+.create-actions {
+    display: flex;
+    justify-content: flex-end; /* Align post button to the right */
+    margin-bottom: 10px; /* Space below the button */
+}
+
+.media-preview {
+    flex: 60%;
+    margin-right: 20px; /* Space between media and inputs */
+}
+
+.create-inputs {
+    flex: 40%;
+    display: flex;
+    flex-direction: column; /* Stack input fields vertically */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Ensure the entire media preview area is flex and centers its content */
+.media-preview {
+    /* border: 2px dashed #ccc; */
+    padding: 20px;
+    text-align: center;
+    /* cursor: pointer; */
+    position: relative;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: #fafafa; */
+}
+
+/* .media-preview.drag-over {
+    background-color: #f0f0f0;
+    border-color: #aaa;
+} */
+
+.drag-drop-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    cursor: pointer;
+
+
+
+
+
+
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    border: 2px dashed #bbb5ff ;
+    background: #f7f8ff;
+    background-position: center;
+    background-size: cover;
+
+
+}
+
+.drag-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #aaa;
+
+
+
+
+    
+}
+
+.drag-icon i {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.drag-drop-area p {
+    margin: 0;
+    font-size: 16px;
+    color: #666;
+}
+
+.drag-drop-area button {
+    margin-top: 25px;
+    background-color: #0095f6;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.drag-drop-area button:hover {
+    background-color: #007bb5;
+}
+
+#media-preview img, 
+#media-preview video {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    margin: 20px 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Style for the search input and results container */
+#search-users {
+    margin: 20px;
+    font-family: Arial, sans-serif;
+}
+
+#search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-query {
+    width: 520px;
+    padding: 10px;
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    font-size: 16px;
+    outline: none;
+}
+
+#search-form button {
+    background-color: #0095f6;
+    color: white;
+    padding: 15px 15px;
+    border: none;
+    border-radius: 10px;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#search-form button:hover {
+    background-color: #007bb5;
+}
+
+#search-results-container {
+    border: 1px solid #dbdbdb;
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#search-results {
+    list-style-type: none;
+    padding: 0;
+}
+
+/* Styling individual search result items */
+#search-results li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #dbdbdb;
+    transition: background-color 0.3s;
+}
+
+#search-results li:last-child {
+    border-bottom: none;
+}
+
+#search-results li:hover {
+    background-color: #f0f0f0;
+}
+
+.small-profile-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 15px;
+    object-fit: cover;
+}
+
+#search-results li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: black;
+    width: 100%;
+}
+
+#search-results li a span {
+    display: flex;
+    flex-direction: column;
+}
+
+#search-results li a span .username {
+    
+    color: #8e8e8e;
+    font-size: 14px;
+}
+
+#search-results li a span .full-name {
+    font-weight: bold;
+    color: #333;
+}
+
+/* If no user is found, display the message in the middle of the container */
+#search-results li.no-user-found {
+    text-align: center;
+    padding: 50px 0;
+    font-size: 18px;
+    color: #8e8e8e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* General Styles */
+#edit-profile {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+
+#user-pro {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+}
+
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #262626;
+    margin-bottom: 20px;
+}
+
+/* Profile Info Container */
+.profile-info-container {
+    display: flex;
+    align-items: flex-start; /* Aligns profile picture and stats at the top */
+    gap: 100px; /* Space between the profile picture and user details */
+    margin-bottom: 30px;
+    border-bottom: 1px solid #dbdbdb; /* Optional: Add a top border to separate from menu items */
+}
+
+/* Profile Picture */
+.profile-pic-container {
+    flex-shrink: 0; /* Prevents the profile picture from shrinking */
+}
+
+.profile-pic {
+    width: 170px;
+    height: 170px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dbdbdb;
+}
+
+/* User Details (Username, Stats, Full Name, Bio) */
+.user-details {
+    flex-grow: 1;
+}
+
+.username h3 {
+    font-size: 22px;
+    color: #262626;
+    margin-bottom: 30px;
+}
+
+.profile-stats {
+    display: flex;
+    gap: 50px; /* Space between stat items */
+    margin-bottom: 30px;
+}
+
+.stat-item{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+
+.stat-itemm{
+    display: flex;
+    gap: 5px;
+}
+
+.stat-item strong {
+    display: block;
+    font-size: 20px;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.stat-item span {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+
+
+.stat-item a {
+    text-decoration: none;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.full-name {
+    font-size: 16px;
+    font-weight: bold;
+    color: #262626;
+    margin-bottom: 3px;
+}
+
+.bio {
+    font-size: 14px;
+    color: #8e8e8e;
+}
+
+/* Edit Profile Form */
+.edit-profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group label {
+    flex-basis: 150px;
+    text-align: right;
+    font-size: 14px;
+    color: #262626;
+    margin-right: 15px;
+}
+
+.form-group input,
+.form-group textarea {
+    flex-grow: 1;
+    padding: 18px;
+    border: 1px solid #dbdbdb;
+    border-radius: 17px;
+    font-size: 14px;
+    outline: none;
+}
+
+.form-groupp input,
+.form-groupp textarea{
+    
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+}
+
+textarea {
+    resize: none;
+    height: 80px;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+/* Update Button */
+.update-btn {
+    background-color: #0095f6;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    width: 150px;
+    margin: 20px auto 0;
+}
+
+.update-btn:hover {
+    background-color: #007bb5;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.profile-pic-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #dbdbdb;
+    cursor: pointer;
+}
+
+.profile-pic-container label {
+    cursor: pointer;
+}

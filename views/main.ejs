@@ -1,0 +1,1182 @@
+<!-- views/main.ejs -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connectify</title>
+    <link rel="stylesheet" href="/css/new.css"> <!-- Add a custom stylesheet -->
+    <link href="https://fonts.googleapis.com/css2?family=Billabong&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Updated Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    
+
+      
+
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div>
+                <div class="logo">
+                    <h1>Connectify</h1>
+                </div>
+                <nav class="menu">
+                    <ul>
+                        
+
+                        <li class="menu-item">
+                            <a href="#" class="load-profile" data-user-id="<%= user._id %>">
+                                <img src="<%= user.profile_pic %>" alt="<%= user.username %>'s profile picture" class="small-profile-pic">
+                                <div>
+                                    <span class="full-name"><%= user.full_name %></span>
+                                    <span class="username"><%= user.username %></span>
+                                </div>
+                            </a>
+                        </li>
+
+                        
+                        
+
+                        <li class="menu-item active"><i class="bi bi-house-door"></i> Home </li>
+                        <li class="menu-item"><i class="bi bi-search"></i> Search Users</li>
+                        <li class="menu-item"><i class="bi bi-envelope"></i> Inbox Messages</li>
+                        <li class="menu-item"><i class="bi bi-plus-square"></i> Create Post</li>
+                        <li class="menu-item"><i class="bi bi-bookmark"></i> Saved Items</li>
+                        <li class="menu-item"><i class="bi bi-grid"></i> My Posts</li>
+                        <li class="menu-item"><i class="bi bi-person-circle"></i> Edit Profile</li>
+                        
+                        
+
+
+                    </ul>
+                </nav>
+            </div>
+            <div class="logout">
+                <a href="/logout"><i class="bi bi-box-arrow-right"></i> Logout</a>
+
+            </div>
+        </aside>
+
+        
+
+        <!-- Main content area -->
+        <main class="main-content">
+             <!-- User profile section -->
+    <section id="user-profile-section" class="hidden"></section> <!-- Initially hidden -->
+
+   
+            
+
+           <!-- Home section to display posts -->
+        <section id="home" class="feed">
+    
+    <div class="posts-container">
+        <% if (allPosts && allPosts.length > 0) { %>
+            <% allPosts.forEach(post => { %>
+                <% if (post.user._id.toString() !== user._id.toString()) { %>
+                    <div class="post">
+                        
+
+
+
+                        <div class="post-header">
+                            
+
+
+                           
+                                <a href="#" class="load-profile" data-user-id="<%= post.user._id %>">
+                                    <img src="<%= post.user.profile_pic %>" alt="<%= post.user.username %>'s profile picture" class="small-profile-pic">
+                                    
+                                </a>
+                           
+    
+
+                            <div class="post-user-info">
+                                
+
+
+                                
+                                <a href="#" class="load-profile" data-user-id="<%= post.user._id %>">
+                                    <p class="poster-username"><strong><%= post.user.username %></strong></p>
+                                    </a>
+                                <div class="post-meta">
+                                    <p class="post-location"><%= post.location %> . </p>
+                                    <p class="post-date"><%= formatPostAge(post.createdAt) %></p>
+                                </div>
+                            </div>
+                        </div>
+                        
+
+
+                        <% if (post.media.endsWith('.jpg') || post.media.endsWith('.jpeg') || post.media.endsWith('.png') || post.media.endsWith('.gif')) { %>
+                            <img src="<%= post.media %>" alt="Post Media" class="post-media">
+                        <% } else if (post.media.endsWith('.mp4')) { %>
+                            <video controls class="post-media">
+                                <source src="<%= post.media %>" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        <% } else if (post.media.endsWith('.mp3') || post.media.endsWith('.mpeg')) { %>
+                            <audio controls class="post-media">
+                                <source src="<%= post.media %>" type="audio/mpeg">
+                                Your browser does not support the audio tag.
+                            </audio>
+                        <% } %>
+
+
+
+                         <p class="post-caption"><strong></strong> <%= post.caption %></p>
+                        <p class="post-hashtags"><strong></strong> #<%= post.hashtags.join(' #') %></p>
+                        <p class="post-tagged-users"><strong></strong> 
+                            <% if (post.taggedUsers && post.taggedUsers.length > 0) { %>
+                                <% post.taggedUsers.forEach((user, index) => { %>
+                                    
+                                   
+                                    
+                                    <a href="#" class="load-profile" data-user-id="<%= user._id %>"><span>@<%= user.username %></span></a><%= (index < post.taggedUsers.length - 1) ? ' ' : '' %>
+                                   
+                                    
+                                <% }); %>
+                            <% } %>
+                                
+                            
+                        </p>
+                    
+                        <!-- Inside the post-actions div in main.ejs -->
+<div class="post-actions">
+    <!-- Like Icon -->
+     <div>
+        <i class="fa <%= post.likes.includes(user._id) ? 'fa-heart' : 'fa-heart-o' %> like-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+        <span class="like-count"><%= post.likes.length > 0 ? post.likes.length : 0 %></span> 
+     </div>
+   
+     <div>
+         <!-- Comment Icon -->
+    <i class="fa fa-comment-o comment-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+    <span class="comment-count"><%= post.comments.length > 0 ? post.comments.length : 0 %></span>
+     </div>
+   
+
+    <!-- Save icon -->
+<% if (user.savedPosts.includes(post._id.toString())) { %>
+    <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="true" style="color: blue;"></i>
+<% } else { %>
+    <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="false"></i>
+<% } %>
+</div>
+
+<!-- Comments Section -->
+
+
+
+
+
+<!-- Comments Section -->
+<div class="comments-section hidden" id="comments-<%= post._id %>">
+
+    <!-- Add Comment Form -->
+    <form action="/posts/<%= post._id %>/comment" method="POST" class="add-comment-form">
+        <textarea name="commentText" placeholder="Add a comment..." required></textarea>
+        <button type="submit">Post</button>
+    </form>
+
+    <div class="existing-comments">
+        <% post.comments.forEach(comment => { %>
+            <div class="comment">
+                
+
+
+                <a href="#" class="load-profile comment-user" data-user-id="<%= comment.user._id %>"  >
+                    <img src="<%= comment.user.profile_pic %>" alt="<%= comment.user.username %>'s profile picture" class="small-profile-pic">
+                    <span class="comment-username"><%=  comment.user.username %></span>
+                </a>
+                <span class="comment-text"><%= comment.text %></span>
+            </div>
+        <% }); %>
+    </div>
+</div>
+
+                 
+                    </div>
+                <% } %>
+            <% }); %>
+        <% } else { %>
+            <p>No posts to display</p>
+        <% } %>
+    </div>
+    
+</section>
+
+
+
+
+
+
+
+
+<!-- Section for "Create Post" -->
+<!-- Section for "Create Post" -->
+<section id="create-post" class="hidden">
+    <h2>Create Post</h2>
+    <div class="posts-container">
+        <div class="edit-post-form">
+            <form id="postForm" action="/posts/create" method="POST" enctype="multipart/form-data">
+                <div class="create-actions">
+                    <button type="submit" class="update-edit-btn">Post</button>
+                </div>
+
+                <div class="create-form-content">
+                    <!-- Media Upload Section -->
+                    <div class="media-preview" id="media-preview" ondrop="handleDrop(event)" ondragover="allowDrop(event)">
+                        <div class="drag-drop-area">
+                            <!-- Drag-and-Drop Icon/Illustration -->
+                            <div class="drag-icon">
+                                <!-- You can use an SVG, an image, or a Font Awesome icon here -->
+                                <i class="fas fa-cloud-upload-alt fa-3x"></i>
+                                <p>Drag photos and videos here</p>
+                               
+                            </div>
+                        </div>
+                        <!-- Hidden input to trigger file select -->
+                        <input type="file" name="media" id="media" accept="image/*,video/*" onchange="handleFileSelect(event)" style="display:none;">
+                    </div>
+
+                    
+                    <!-- Caption, Location, Hashtags, and Tagged Users Input Groups -->
+                    <div class="create-inputs">
+
+                        <div class="input-group">
+                            <label for="media">Select from computer:</label>
+                            <input type="file" name="media" id="media" accept="image/*,video/*">
+                        </div>
+    
+                        <div class="input-group">
+                            <label for="caption">Caption:</label>
+                            <input type="text" name="caption" id="caption">
+                        </div>
+                        <div class="input-group">
+                            <label for="location">Location:</label>
+                            <input type="text" name="location" id="location">
+                        </div>
+                        <div class="input-group">
+                            <label for="hashtags">Hashtags (comma separated):</label>
+                            <input type="text" name="hashtags" id="hashtags" placeholder="Comma separated">
+                        </div>
+                        <div class="input-group">
+                            <label for="taggedUsers">Tag People (comma separated):</label>
+                            <input type="text" name="taggedUsers" id="taggedUsers" placeholder="Comma separated usernames">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+<script>
+    let droppedFile = null; // Variable to store the dropped file
+
+    // Allow dragover by preventing default behavior
+    function allowDrop(event) {
+        event.preventDefault();
+        const previewArea = document.getElementById('media-preview');
+        previewArea.classList.add('drag-over');
+    }
+
+    // Handle drop event for files
+    function handleDrop(event) {
+        event.preventDefault();
+        const previewArea = document.getElementById('media-preview');
+        previewArea.classList.remove('drag-over');
+        
+        droppedFile = event.dataTransfer.files[0]; // Store the dropped file
+        if (droppedFile) {
+            previewFile(droppedFile); // Preview the file
+        }
+    }
+
+    // Handle file input change event (for manually selecting files via file input)
+    function handleFileSelect(event) {
+        droppedFile = event.target.files[0]; // Store the selected file
+        if (droppedFile) {
+            previewFile(droppedFile); // Preview the file
+        }
+    }
+
+    // Preview the file (image or video)
+    function previewFile(file) {
+        const previewArea = document.getElementById('media-preview');
+        previewArea.innerHTML = ''; // Clear previous content
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            let mediaElement;
+
+            if (file.type.startsWith('image/')) {
+                mediaElement = document.createElement('img');
+            } else if (file.type.startsWith('video/')) {
+                mediaElement = document.createElement('video');
+                mediaElement.controls = true;
+            } else {
+                alert('Unsupported file type!');
+                return;
+            }
+
+            mediaElement.src = event.target.result;
+            previewArea.appendChild(mediaElement);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    // Trigger file input click when "Select from Computer" button is clicked
+    document.getElementById('selectFileBtn').addEventListener('click', function() {
+        document.getElementById('media').click(); // Simulate click on hidden file input
+    });
+
+    // Append the dropped file to the hidden file input before form submission
+    document.querySelector('#postForm').addEventListener('submit', function(event) {
+        console.log('Form submitted'); // 
+        const fileInput = document.getElementById('media');
+
+        if (droppedFile) {
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(droppedFile); // Add the dropped file to DataTransfer
+            fileInput.files = dataTransfer.files; // Assign the DataTransfer files to the hidden file input
+        }
+
+
+        console.log('Files before submission:', fileInput.files); // Debugging line
+
+        // Check if a file is selected or not
+        if (!fileInput.files.length) {
+            event.preventDefault(); // Prevent form submission if no file is selected
+            alert("No media file selected. Please drag and drop or upload a file.");
+        }
+
+        console.log(fileInput.files); // Log the files to check if they're attached correctly
+    });
+</script>
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            <section id="saved-items" class="hidden">
+                <h2>Saved Items</h2>
+                <div class="posts-container">
+                    <% if (savedPosts && savedPosts.length > 0) { %>
+                        <div class="post-grid">
+                            <% savedPosts.forEach(post => { %>
+                                <div class="post">
+                                    <div class="post-header">
+                                        <a href="/users/<%= post.user._id %>">
+                                            <img src="<%= post.user.profile_pic %>" alt="<%= post.user.username %>'s profile picture" class="small-profile-pic">
+                                        </a>
+                                        <div class="post-user-info">
+                                            <a href="/users/<%= post.user._id %>">
+                                                <p class="poster-username"><strong><%= post.user.username %></strong></p>
+                                            </a>
+                                            <div class="post-meta">
+                                                <p class="post-location"><%= post.location %> . </p>
+                                                <p class="post-date"><%= formatPostAge(post.createdAt) %></p>
+                                            </div>
+                                        </div>
+                                    </div>
+            
+                                    <% if (post.media.endsWith('.jpg') || post.media.endsWith('.jpeg') || post.media.endsWith('.png') || post.media.endsWith('.gif')) { %>
+                                        <img src="<%= post.media %>" alt="Post Media" class="post-media">
+                                    <% } else if (post.media.endsWith('.mp4')) { %>
+                                        <video controls class="post-media">
+                                            <source src="<%= post.media %>" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    <% } else if (post.media.endsWith('.mp3') || post.media.endsWith('.mpeg')) { %>
+                                        <audio controls class="post-media">
+                                            <source src="<%= post.media %>" type="audio/mpeg">
+                                            Your browser does not support the audio tag.
+                                        </audio>
+                                    <% } %>
+            
+                                    <p class="post-caption"><%= post.caption %></p>
+                                    <p class="post-hashtags">#<%= post.hashtags.join(' #') %></p>
+                                    <p class="post-tagged-users">
+                                        <% if (post.taggedUsers && post.taggedUsers.length > 0) { %>
+                                            <% post.taggedUsers.forEach((user, index) => { %>
+                                                <a href="/users/<%= user._id %>"><span>@<%= user.username %></span></a><%= (index < post.taggedUsers.length - 1) ? ' ' : '' %>
+                                            <% }); %>
+                                        <% }  %>
+                                            
+                                        
+                                    </p>
+            
+                                    <div class="post-actions">
+                                        <div>
+                                            <i class="fa <%= post.likes.includes(user._id) ? 'fa-heart' : 'fa-heart-o' %> like-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                                            <span class="like-count"><%= post.likes.length > 0 ? post.likes.length : 0 %></span>
+                                        </div>
+                                        <div>
+                                            <i class="fa fa-comment-o comment-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                                            <span class="comment-count"><%= post.comments.length > 0 ? post.comments.length : 0 %></span>
+                                        </div>
+                                        <% if (user.savedPosts.includes(post._id.toString())) { %>
+                                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="true" style="color: blue;"></i>
+                                        <% } else { %>
+                                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="false"></i>
+                                        <% } %>
+                                    </div>
+            
+                                    <div class="comments-section hidden" id="comments-<%= post._id %>">
+                                        <form action="/posts/<%= post._id %>/comment" method="POST" class="add-comment-form">
+                                            <textarea name="commentText" placeholder="Add a comment..." required></textarea>
+                                            <button type="submit">Post</button>
+                                        </form>
+            
+                                        <div class="existing-comments">
+                                            <% post.comments.forEach(comment => { %>
+                                                <div class="comment">
+                                                    <a href="/users/<%= comment.user._id %>" class="comment-user">
+                                                        <img src="<%= comment.user.profile_pic %>" alt="<%= comment.user.username %>'s profile picture" class="small-profile-pic">
+                                                        <span class="comment-username"><%= comment.user.username %></span>
+                                                    </a>
+                                                    <span class="comment-text"><%= comment.text %></span>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }); %>
+                        </div>
+                    <% } else { %>
+                        <p>No saved posts to display</p>
+                    <% } %>
+                </div>
+            </section>
+            
+            
+
+
+
+
+            <section id="search-users" class="hidden">
+                <h2>Search Users</h2>
+                <form id="search-form">
+                    <input type="text" id="search-query" name="query" placeholder="Search by username or full name" required>
+                    <button type="submit">Search</button>
+                </form>
+            
+                <div id="search-results-container">
+                    <ul id="search-results"></ul>
+                </div>
+            </section>
+            
+
+
+            <section id="edit-profile" class="hidden">
+                <h2>Edit Profile</h2>
+            
+                <!-- Profile Info Section: Profile Picture + Username + Stats + Bio -->
+                <div class="profile-info-container">
+                    <!-- Profile Picture -->
+                    <form action="/users/update-profile" method="POST" enctype="multipart/form-data" class="edit-profile-form">
+                    <div class="profile-pic-container">
+                        <label for="profile_pic">
+                            <img src="<%= user.profile_pic || '/path/to/default-pic.jpg' %>" alt="Profile Picture" class="profile-pic clickable-pic">
+                            <!-- Hidden file input -->
+                            
+                            <input type="file" name="profile_pic" id="profile_pic" style="display:none;" onchange="previewProfilePic(event)">
+                        </label>
+                    </div>
+                </form>
+            
+                    <!-- User Info: Username, Stats, Full Name, and Bio -->
+                    <div class="user-details">
+                        <!-- Username -->
+                        <div class="username">
+                            <h3><%= user.username %></h3>
+                        </div>
+            
+                        <!-- Profile Stats -->
+                        <div class="profile-stats">
+                            <div class="stat-item">
+                                <div class="stat-itemm">
+                                    <span><%= postCount %></span>
+                                <strong>Posts</strong>
+                                </div>
+                                
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-itemm">
+                                    <span><%= followerCount %></span>
+                                <strong>
+                                    <a href="/users/followers">Followers</a>
+                                </strong>
+                                </div>
+                                
+
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-itemm">
+                                    <span><%= followingCount %></span>
+                                <strong><a href="/users/following">Following</a></strong>
+                                </div>
+                                
+                            </div>
+
+                        
+                        </div>
+            
+                        <!-- Full Name -->
+                        <div class="full-name">
+                            <p><%= user.full_name %></p>
+                        </div>
+            
+                        <!-- Bio -->
+                        <div class="bio">
+                            <p><%= user.bio %></p>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Edit Profile Form -->
+                <form action="/users/update-profile" method="POST" enctype="multipart/form-data" class="edit-profile-form">
+                    <!-- File input is hidden, triggered by clicking the profile picture -->
+                    <div class="form-groupp">
+                        <label for="profile_pic">Profile Picture:</label>
+                        <input type="file" name="profile_pic" id="profile_pic">
+                    </div>
+                    <div class="form-group">
+                        <label for="full_name">Full Name:</label>
+                        <input type="text" name="full_name" id="full_name" value="<%= user.full_name %>" required>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input type="text" name="username" id="username" value="<%= user.username %>" required>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" value="<%= user.email %>" disabled>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="website">Website:</label>
+                        <input type="text" name="website" id="website" value="<%= user.website %>">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="bio">Bio:</label>
+                        <textarea name="bio" id="bio"><%= user.bio %></textarea>
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="password">New Password (leave blank to keep current):</label>
+                        <input type="password" name="password" id="password">
+                    </div>
+            
+                    <button type="submit" class="update-btn">Update Profile</button>
+                </form>
+            </section>
+
+            <script>
+                function previewProfilePic(event) {
+                    const output = document.querySelector('.profile-pic');
+                    output.src = URL.createObjectURL(event.target.files[0]);
+                    output.onload = () => {
+                        URL.revokeObjectURL(output.src); // Free up memory
+                    };
+                }
+            </script>
+            
+            
+            
+
+
+
+            <section id="inbox-messages" class="hidden">
+                <h2>Inbox Messages</h2>
+                <!-- Display inbox messages -->
+            </section>
+
+            
+<!-- My Posts Section -->
+
+<section id="my-posts" class="hidden">
+    <h2>My Posts</h2>
+    <div class="posts-container" id="post-<%= myPosts._id %>">
+        <% if (myPosts && myPosts.length > 0) { %>
+            <div class="post-grid">
+            <% myPosts.forEach(post => { %>
+                <div class="post-content">
+                
+                    
+                    <!-- Post Header with Edit/Delete Icons -->
+                    <div class="post-header">
+                        <p class="post-date"><%= formatPostAge(post.createdAt) %></p>
+                        <div class="post-actions-icons">
+                            
+
+                            <!-- Edit Icon -->
+                            <button class="icon-btn edit-icon-btn" data-post-id="<%= post._id %>">
+                            <i class="fa fa-pencil edit-icon" aria-hidden="true"></i>
+                            </button>
+                            <!-- Delete Icon -->
+                            <form action="/posts/delete/<%= post._id %>" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                <button type="submit" class="icon-btn">
+                                    <i class="fa fa-trash delete-icon" aria-hidden="true"></i>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Media Section -->
+                    <% if (post.media.endsWith('.jpg') || post.media.endsWith('.jpeg') || post.media.endsWith('.png') || post.media.endsWith('.gif')) { %>
+                        <img src="<%= post.media %>" alt="Post Media" class="post-media">
+                    <% } else if (post.media.endsWith('.mp4')) { %>
+                        <video controls class="post-media">
+                            <source src="<%= post.media %>" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    <% } else if (post.media.endsWith('.mp3') || post.media.endsWith('.mpeg')) { %>
+                        <audio controls class="post-media">
+                            <source src="<%= post.media %>" type="audio/mpeg">
+                            Your browser does not support the audio tag.
+                        </audio>
+                    <% } %>
+
+                    <!-- Caption, Hashtags, and Tagged Users -->
+                    <p class="post-caption"><%= post.caption %></p>
+                    <p class="post-hashtags">#<%= post.hashtags.join(' #') %></p>
+                    <p class="post-tagged-users">
+                        <% if (post.taggedUsers && post.taggedUsers.length > 0) { %>
+                            <% post.taggedUsers.forEach((user, index) => { %>
+                                <a href="/users/<%= user._id %>"><span>@<%= user.username %></span></a><%= (index < post.taggedUsers.length - 1) ? ' ' : '' %>
+                            <% }); %>
+                        <% }  %>
+                    </p>
+                   <div class="post-actions">
+                        <div>
+                            <i class="fa <%= post.likes.includes(user._id) ? 'fa-heart' : 'fa-heart-o' %> like-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                            <span class="like-count"><%= post.likes.length > 0 ? post.likes.length : 0 %></span>
+                        </div>
+                        <div>
+                            <i class="fa fa-comment-o comment-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                            <span class="comment-count"><%= post.comments.length > 0 ? post.comments.length : 0 %></span>
+                        </div>
+                        <% if (user.savedPosts.includes(post._id.toString())) { %>
+                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="true" style="color: blue;"></i>
+                        <% } else { %>
+                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="false"></i>
+                        <% } %>
+                    </div>
+
+                    <div class="comments-section hidden" id="comments-<%= post._id %>">
+                        <form action="/posts/<%= post._id %>/comment" method="POST" class="add-comment-form">
+                            <textarea name="commentText" placeholder="Add a comment..." required></textarea>
+                            <button type="submit">Post</button>
+                        </form>
+
+                        <div class="existing-comments">
+                            <% post.comments.forEach(comment => { %>
+                                <div class="comment">
+                                    <a href="/users/<%= comment.user._id %>" class="comment-user">
+                                        <img src="<%= comment.user.profile_pic %>" alt="<%= comment.user.username %>'s profile picture" class="small-profile-pic">
+                                        <span class="comment-username"><%= comment.user.username %></span>
+                                    </a>
+                                    <span class="comment-text"><%= comment.text %></span>
+                                </div>
+                            <% }); %>
+                        </div>
+                    </div>
+                
+
+ 
+                </div>
+
+
+
+     
+            <% }); %>
+            </div>
+
+
+            <!-- Edit Form (Initially Hidden) -->
+            <% myPosts.forEach(post => { %>
+<div class="edit-post-form hidden" id="edit-form-<%= post._id %>">
+    <form action="/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+        <div class="edit-actions">
+        <button type="button" class="cancel-edit-btn" data-post-id="<%= post._id %>">Cancel</button>
+        <p>Edit info</p>
+        <button type="submit" class="update-edit-btn">Done</button>
+        </div>
+        
+        <div class="edit-form-content">
+            <!-- Media Preview -->
+            <div class="media-preview">
+                <% if (post.media.endsWith('.jpg') || post.media.endsWith('.jpeg') || post.media.endsWith('.png') || post.media.endsWith('.gif')) { %>
+                    <img src="<%= post.media %>" alt="Post Media" class="post-media">
+                <% } else if (post.media.endsWith('.mp4')) { %>
+                    <video controls class="post-media">
+                        <source src="<%= post.media %>" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                <% } else if (post.media.endsWith('.mp3') || post.media.endsWith('.mpeg')) { %>
+                    <audio controls class="post-media">
+                        <source src="<%= post.media %>" type="audio/mpeg">
+                        Your browser does not support the audio tag.
+                    </audio>
+                <% } %>
+            </div>
+
+            <!-- Input Groups -->
+            <div class="edit-inputs">
+                <!-- Caption -->
+                <div class="input-group">
+                    <label for="caption">Caption:</label>
+                    <input type="text" name="caption" id="caption" value="<%= post.caption %>">
+                </div>
+
+                <!-- Location -->
+                <div class="input-group">
+                    <label for="location">Location:</label>
+                    <input type="text" name="location" id="location" value="<%= post.location %>">
+                </div>
+
+                <!-- Hashtags -->
+                <div class="input-group">
+                    <label for="hashtags">Hashtags (comma separated):</label>
+                    <input type="text" name="hashtags" id="hashtags" value="<%= post.hashtags.join(', ') %>">
+                </div>
+
+                <!-- Tagged Users -->
+                <div class="input-group">
+                    <label for="taggedUsers">Tagged Users (comma separated):</label>
+                    <input type="text" name="taggedUsers" id="taggedUsers" value="<%= post.taggedUsers.map(user => user.username).join(', ') %>">
+                </div>
+            </div>
+        </div>
+        
+    </form>
+</div>
+<% }) %>
+        <% } else { %>
+            <p>No posts to display</p>
+        <% } %>
+    </div>
+</section>
+
+
+            
+    </main>
+    </div>
+
+
+
+   
+
+   
+
+    <!-- Navigation handling -->
+    <script>
+        
+        document.querySelectorAll('.menu-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelector('.menu-item.active').classList.remove('active');
+                this.classList.add('active');
+
+                document.querySelectorAll('section').forEach(section => {
+                    section.classList.add('hidden');
+                });
+
+                const targetSection = this.textContent.trim().toLowerCase().replace(" ", "-");
+                document.getElementById(targetSection).classList.remove('hidden');
+            });
+        });
+
+      
+    </script>
+
+
+
+
+
+<script>
+    document.querySelectorAll('.like-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            const isLiked = this.classList.contains('fa-heart');
+
+            fetch(`/posts/${isLiked ? 'unlike' : 'like'}/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer <%= token %>` // Include your JWT token here
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Toggle the like icon class
+                    if (isLiked) {
+                        this.classList.remove('fa-heart'); // Remove filled heart
+                        this.classList.add('fa-heart-o');  // Add empty heart
+                    } else {
+                        this.classList.remove('fa-heart-o'); // Remove empty heart
+                        this.classList.add('fa-heart');      // Add filled heart
+                    }
+
+                    // Update the like count
+                    const likeCountElem = this.nextElementSibling;
+                    let likeCount = parseInt(likeCountElem.textContent);
+                    likeCountElem.textContent = isLiked ? likeCount - 1 : likeCount + 1;
+                } else {
+                    alert('Failed to update like status');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+</script>
+
+
+
+<script>
+    document.querySelectorAll('.comment-icon').forEach(icon => {
+        icon.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            const commentsSection = document.getElementById(`comments-${postId}`);
+            commentsSection.classList.toggle('hidden');
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+    document.querySelectorAll('.save-icon').forEach(icon => {
+    icon.addEventListener('click', function() {
+        const postId = this.getAttribute('data-post-id');
+        const isSaved = this.getAttribute('data-saved') === 'true';
+
+        fetch(`/posts/${isSaved ? 'unsave' : 'save'}/${postId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer <%= token %>` // Include your JWT token here
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Toggle the save icon and its color
+                this.setAttribute('data-saved', isSaved ? 'false' : 'true');
+                this.style.color = isSaved ? '' : 'blue';
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+</script>
+
+
+
+
+
+
+<script>
+    document.getElementById('search-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const query = document.getElementById('search-query').value;
+
+    fetch(`/users/search?query=${query}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer <%= token %>` // Include your JWT token here
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const resultsList = document.getElementById('search-results');
+        resultsList.innerHTML = '';
+
+        if (data.length > 0) {
+            data.forEach(user => {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `
+                    <a href="#" class="load-profile" data-user-id="${user._id}">
+                        <img src="${user.profile_pic}" alt="${user.username}'s profile picture" class="small-profile-pic">
+                        <span>
+                            <span class="full-name">${user.full_name}</span>
+                            <span class="username">${user.username}</span>
+                        </span>
+                    </a>
+                `;
+                resultsList.appendChild(listItem);
+            });
+
+            addProfileLoadEvent();  // Apply event listeners to search results
+        } else {
+            resultsList.innerHTML = '<li class="no-user-found">No users found.</li>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+// Function to add toggling event listeners for followers/following
+function addToggleListeners() {
+    document.getElementById('followers-toggle').addEventListener('click', function() {
+        const followersDiv = document.querySelector('.followers');
+        const userId = document.getElementById('followBtn').getAttribute('data-user-id');
+
+        // Fetch the updated followers list from the server
+        fetch(`/users/${userId}/followers`, {
+            headers: {
+                'Authorization': `Bearer <%= token %>` // Include your JWT token here
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            const followersList = followersDiv;
+            followersList.innerHTML = ''; // Clear the previous followers list
+
+            if (data.followers.length > 0) {
+                data.followers.forEach(follower => {
+                    const followerItem = document.createElement('div');
+                    followerItem.classList.add('follower-item');
+                    followerItem.innerHTML = `
+                        <img src="${follower.profile_pic}" alt="${follower.username}" class="follower-pic">
+                        <span>${follower.username}</span>
+                    `;
+                    followersList.appendChild(followerItem);
+                });
+            } else {
+                followersList.innerHTML = '<p>No followers yet.</p>';
+            }
+
+            // Toggle visibility after updating the list
+            followersDiv.classList.toggle('hidden');
+        })
+        .catch(error => {
+            console.error('Error fetching followers:', error);
+        });
+    });
+
+
+
+    document.getElementById('following-toggle').addEventListener('click', function() {
+        const followingDiv = document.querySelector('.following');
+        followingDiv.classList.toggle('hidden');
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Function to add toggling event listeners for followers/following
+// function addToggleListeners() {
+//     document.getElementById('followers-toggle').addEventListener('click', function() {
+//         const followersDiv = document.querySelector('.followers');
+//         followersDiv.classList.toggle('hidden');
+//     });
+
+//     document.getElementById('following-toggle').addEventListener('click', function() {
+//         const followingDiv = document.querySelector('.following');
+//         followingDiv.classList.toggle('hidden');
+//     });
+// }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Function to add event listeners for loading user profiles dynamically
+function addProfileLoadEvent() {
+    document.querySelectorAll('.load-profile').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const userId = this.getAttribute('data-user-id');
+
+            // Fetch and load the profile dynamically
+            fetch(`/users/${userId}`, {
+                headers: {
+                    'Authorization': `Bearer <%= token %>`
+                }
+            })
+            .then(response => response.text())
+            .then(html => {
+                // Insert the user profile HTML into the profile section
+                document.getElementById('user-profile-section').innerHTML = html;
+
+                // Re-add event listeners after profile content is loaded
+                addToggleListeners();
+                addFollowUnfollowListener();  // Add follow/unfollow event listener
+
+                // Hide the home feed and search section, show the profile section
+                document.getElementById('home').classList.add('hidden');
+                document.getElementById('search-users').classList.add('hidden'); // Hide search section
+                document.getElementById('user-profile-section').classList.remove('hidden');
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
+}
+
+
+
+
+
+
+// Function to add event listener for follow/unfollow button
+function addFollowUnfollowListener() {
+    const followBtn = document.getElementById('followBtn');
+
+    if (followBtn) {
+        followBtn.addEventListener('click', async function() {
+            const userId = followBtn.getAttribute('data-user-id'); // Assume the button has the user ID stored in a data attribute
+            
+
+            // Send an AJAX request to toggle follow/unfollow
+            try {
+                const response = await fetch(`/users/${userId}/follow`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer <%= token %>` // If you're using JWT token
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const isFollowing = data.isFollowing; // Updated follow status
+                    const followerCount = data.followerCount; // Updated follower count
+                    
+                    // Update the button text based on the new follow state
+                    followBtn.textContent = isFollowing ? 'Unfollow' : 'Follow';
+
+                    // Update the follower count in the UI
+                    document.querySelector('.follower-count').textContent = followerCount;
+                } else {
+                    console.error('Failed to toggle follow status.');
+                }
+            } catch (err) {
+                console.error('Error:', err);
+            }
+        });
+    }
+}
+
+// Initial call to add event listeners for sidebar profile links (logged-in user)
+addProfileLoadEvent();
+
+</script>
+
+
+
+<script>
+    document.querySelectorAll('.edit-icon-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+            
+            // Hide all posts and forms
+            document.querySelectorAll('.post-content').forEach(postContent => {
+                postContent.classList.add('hidden');
+            });
+            
+
+            // Show the edit form for the clicked post
+            document.getElementById(`edit-form-${postId}`).classList.remove('hidden');
+        });
+    });
+</script>
+
+
+
+
+<script>
+    
+    document.querySelectorAll('.cancel-edit-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const postId = this.getAttribute('data-post-id');
+
+
+
+
+
+             // Hide all posts and forms
+             document.querySelectorAll('.post-content').forEach(postContent => {
+                postContent.classList.remove('hidden');
+            });
+            
+            document.getElementById(`edit-form-${postId}`).classList.add('hidden');
+        });
+    });
+</script>
+
+
+
+
+
+</body>
+</html>

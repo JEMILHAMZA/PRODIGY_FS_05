@@ -1,0 +1,260 @@
+<!-- views/_userProfile.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/userProfile.css">
+    
+</head>
+<body>
+    <section id="user-pro" >
+    
+       
+    <div class="profile-info-container">
+        <div class="profile-pic-container">
+            <img src="<%= userProfile.profile_pic %>" alt="Profile Picture" class="profile-pic">
+        </div>
+
+        <div class="user-details">
+            <div class="username">
+                <h3><%= userProfile.username %></h3>
+            </div>
+
+            <!-- Profile Stats -->
+            <div class="profile-stats">
+                <div class="stat-item">
+                    <div class="stat-itemm">
+                        <span><%= posts.length %></span>
+                        <strong>Posts</strong>
+                    </div>
+                   
+                </div>
+                <div class="stat-item">
+                    
+                    
+
+                    <div class="stat-itemm">
+                        <span class="follower-count"><%= userProfile.followers.length %></span>
+                        <strong class="clickable" id="followers-toggle">Followers</strong>
+                    </div>
+                
+                    <div class="followers hidden">
+                        
+                        <% if (followers.length === 0) { %>
+                            <p>No followers yet.</p>
+                        <% } else { %>
+                            <% followers.forEach(follower => { %>
+                                <div class="follower-item">
+                                    <img src="<%= follower.profile_pic %>" alt="<%= follower.username %>" class="follower-pic">
+                                    <span><%= follower.username %></span>
+                                </div>
+                            <% }); %>
+                        <% } %>
+                    </div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-itemm">
+                        <span><%= userProfile.following.length %></span>
+                        <strong class="clickable" id="following-toggle">Following</strong>
+                    </div>
+                   
+                
+                    <div class="following hidden">
+                        
+                        <% if (following.length === 0) { %>
+                            <p>Not following anyone yet.</p>
+                        <% } else { %>
+                            <% following.forEach(followedUser => { %>
+                                <div class="following-item">
+                                    <img src="<%= followedUser.profile_pic %>" alt="<%= followedUser.username %>" class="following-pic">
+                                    <span><%= followedUser.username %></span>
+                                </div>
+                            <% }); %>
+                        <% } %>
+                    </div>
+                </div>
+                
+            </div>
+
+            <!-- Full Name -->
+            <div class="full-name">
+                <p><%= userProfile.full_name %></p>
+            </div>
+
+            <!-- Bio -->
+            <div class="bio">
+                <p><%= userProfile.bio %></p>
+            </div>
+        </div>
+
+        
+
+<!-- Follow/Unfollow Button in the Profile Section -->
+<% if (userProfile._id && profileUserId !== loggedInUserId) { %>
+    <form id="followForm" action="/users/<%= userProfile._id %>/follow" method="POST">
+        <button type="button" id="followBtn" class="follow-btn" data-user-id="<%= userProfile._id %>">
+            <%= isFollowing ? 'Unfollow' : 'Follow' %>
+        </button>
+    </form>
+<% } %>
+
+
+
+    <form id="followForm" action="/users/<%= userProfile._id %>/follow" method="POST">
+        <button type="button" id="followBtn" class="follow-btn hidden" data-user-id="<%= userProfile._id %>">
+            <%= isFollowing ? 'Unfollow' : 'Follow' %>
+        </button>
+    </form>
+
+
+    </div>
+
+    <div class="user-posts">
+        <% if (posts.length === 0) { %>
+            <p>No posts yet.</p>
+        <% } else { %>
+            <div class="post-container">
+                <% posts.forEach(post => { %>
+                    <div class="postt">
+
+
+
+                        <div class="post-header">
+                        <div class="post-user-info">
+
+                            <div class="post-meta">
+                                <p class="post-location"><%= post.location %> . </p>
+                                <p class="post-date"><%= formatPostAge(post.createdAt) %></p>
+                            </div>
+                        </div> 
+                        </div>
+
+
+
+
+
+                        <% if (post.media.endsWith('.jpg') || post.media.endsWith('.jpeg') || post.media.endsWith('.png') || post.media.endsWith('.gif')) { %>
+                            <img src="<%= post.media %>" alt="Post Media" class="post-media">
+                        <% } else if (post.media.endsWith('.mp4')) { %>
+                            <video controls class="post-media">
+                                <source src="<%= post.media %>" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        <% } else if (post.media.endsWith('.mp3') || post.media.endsWith('.mpeg')) { %>
+                            <audio controls class="post-media">
+                                <source src="<%= post.media %>" type="audio/mpeg">
+                                Your browser does not support the audio tag.
+                            </audio>
+                        <% } %>
+                        
+                        
+
+                        <p class="post-caption"><strong></strong> <%= post.caption %></p>
+                        <p class="post-hashtags"><strong></strong> #<%= post.hashtags.join(' #') %></p>
+                        <p class="post-tagged-users"><strong></strong> 
+                            <% if (post.taggedUsers && post.taggedUsers.length > 0) { %>
+                                <% post.taggedUsers.forEach((user, index) => { %>
+                                    
+                                    <!-- <a href="/users/<%= user._id %>"><span>@<%= user.username %></span></a><%= (index < post.taggedUsers.length - 1) ? ' ' : '' %> -->
+                                    
+                                    <a href="#" class="load-profile" data-user-id="<%= user._id %>"><span>@<%= user.username %></span></a><%= (index < post.taggedUsers.length - 1) ? ' ' : '' %>
+                                   
+                                    
+                                <% }); %>
+                            <% } %>
+                                
+                            
+                        </p>
+
+
+                        <div class="post-actions">
+                            <!-- Like Icon -->
+                             <div>
+                                <i class="fa <%= post.likes.includes(user._id) ? 'fa-heart' : 'fa-heart-o' %> like-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                                <span class="like-count"><%= post.likes.length > 0 ? post.likes.length : 0 %></span> 
+                             </div>
+                           
+                             <div>
+                                 <!-- Comment Icon -->
+                            <i class="fa fa-comment-o comment-icon" data-post-id="<%= post._id %>" aria-hidden="true"></i>
+                            <span class="comment-count"><%= post.comments.length > 0 ? post.comments.length : 0 %></span>
+                             </div>
+                           
+                        
+                            <!-- Save icon -->
+                        <% if (user.savedPosts.includes(post._id.toString())) { %>
+                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="true" style="color: blue;"></i>
+                        <% } else { %>
+                            <i class="fa fa-bookmark save-icon" data-post-id="<%= post._id %>" data-saved="false"></i>
+                        <% } %>
+                        </div>
+                        
+                        <!-- Comments Section -->
+                        
+                        
+                        
+                        
+                        
+                        <!-- Comments Section -->
+                        <div class="comments-section hidden" id="comments-<%= post._id %>">
+                        
+                            <!-- Add Comment Form -->
+                            <form action="/posts/<%= post._id %>/comment" method="POST" class="add-comment-form">
+                                <textarea name="commentText" placeholder="Add a comment..." required></textarea>
+                                <button type="submit">Post</button>
+                            </form>
+                        
+                            <div class="existing-comments">
+                                <% post.comments.forEach(comment => { %>
+                                    <div class="comment">
+                                        <!-- <a href="/users/<%=  comment.user._id %>" class="comment-user">
+                                            <img src="<%=  comment.user.profile_pic %>" alt="<%=  comment.user.username %>'s profile picture" class="small-profile-pic">
+                                            <span class="comment-username"><%=  comment.user.username %></span>
+                                        </a> -->
+                        
+                        
+                                        <a href="#" class="load-profile comment-user" data-user-id="<%= comment.user._id %>"  >
+                                            <img src="<%= comment.user.profile_pic %>" alt="<%= comment.user.username %>'s profile picture" class="small-profile-pic">
+                                            <span class="comment-username"><%=  comment.user.username %></span>
+                                        </a>
+                                        <span class="comment-text"><%= comment.text %></span>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        </div>
+                        
+
+                        
+                    </div>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+
+ </section>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

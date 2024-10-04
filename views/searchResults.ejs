@@ -1,0 +1,70 @@
+<section id="edit-profile" class="hidden">
+    <h2>Edit Profile</h2>
+ 
+ <!-- Profile Info Section: Profile Picture + Username + Stats + Bio -->
+ <div class="profile-info-container">
+    <!-- Profile Picture -->
+    <form action="/users/update-profile" method="POST" enctype="multipart/form-data" class="edit-profile-form">
+    <div class="profile-pic-container">
+        <label for="profile_pic">
+            <img src="<%= user.profile_pic || '/path/to/default-pic.jpg' %>" alt="Profile Picture" class="profile-pic clickable-pic">
+            <!-- Hidden file input -->
+            
+            <input type="file" name="profile_pic" id="profile_pic" style="display:none;" onchange="previewProfilePic(event)">
+        </label>
+    </div>
+</form>
+
+    <!-- User Info: Username, Stats, Full Name, and Bio -->
+    <div class="user-details">
+        <!-- Username -->
+        <div class="username">
+            <h3><%= user.username %></h3>
+        </div>
+
+        <!-- Profile Stats -->
+        <div class="profile-stats">
+            <div class="stat-item">
+                <div class="stat-itemm">
+                    <span><%= postCount %></span>
+                <strong>Posts</strong>
+                </div>
+                
+            </div>
+            <div class="stat-item">
+                <div class="stat-itemm">
+                    <span><%= followerCount %></span>
+                <strong>
+                    <a href="/users/followers">Followers</a>
+                </strong>
+                </div>
+                
+
+            </div>
+            <div class="stat-item">
+                <div class="stat-itemm">
+                    <span><%= followingCount %></span>
+                <strong><a href="/users/following">Following</a></strong>
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- Full Name -->
+        <div class="full-name">
+            <p><%= user.full_name %></p>
+        </div>
+
+        <!-- Bio -->
+        <div class="bio">
+            <p><%= user.bio %></p>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+

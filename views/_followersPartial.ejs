@@ -1,0 +1,13 @@
+<div class="followers">
+    <h3>Followers</h3>
+    <% if (followers.length === 0) { %>
+        <p>No followers yet.</p>
+    <% } else { %>
+        <% followers.forEach(follower => { %>
+            <div class="follower-item">
+                <img src="<%= follower.profile_pic %>" alt="<%= follower.username %>" class="follower-pic">
+                <span><%= follower.username %></span>
+            </div>
+        <% }); %>
+    <% } %>
+</div>

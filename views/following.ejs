@@ -1,0 +1,17 @@
+<!-- views/following.ejs -->
+
+<link rel="stylesheet" href="/css/userProfile.css">
+<div class="following">
+    <h3>Following</h3>
+    <% if (following.length === 0) { %>
+        <p>Not following anyone yet.</p>
+    <% } else { %>
+        <% following.forEach(followedUser => { %>
+            <div class="following-item">
+                <img src="<%= followedUser.profile_pic %>" alt="<%= followedUser.username %>" class="following-pic">
+                <span><%= followedUser.username %></span>
+            </div>
+        <% }); %>
+    <% } %>
+</div>
+
